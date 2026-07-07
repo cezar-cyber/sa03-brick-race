@@ -1,0 +1,107 @@
+using System;
+
+namespace sa03_brick_race
+{
+    internal static class Program
+    {
+        private static JogoResultado? ultimoResultado;
+        private static int recorde = 500;
+
+        private static void Main()
+        {
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
+
+            while (true)
+            {
+                ExibirMenu();
+                string opcao = Console.ReadLine()?.Trim() ?? string.Empty;
+
+                switch (opcao)
+                {
+                    case "1":
+                        ultimoResultado = Jogo.Iniciar(recorde);
+                        if (ultimoResultado.Pontos > recorde)
+                        {
+                            recorde = ultimoResultado.Pontos;
+                        }
+                        break;
+                    case "2":
+                        ExibirInstrucoes();
+                        break;
+                    case "3":
+                        ExibirUltimoResultado();
+                        break;
+                    case "0":
+                        Console.WriteLine("Encerrando o programa...");
+                        return;
+                    default:
+                        Console.WriteLine();
+                        Console.WriteLine("Opção inválida. Pressione Enter para voltar ao menu.");
+                        Console.ReadLine();
+                        break;
+                }
+            }
+        }
+
+        private static void ExibirMenu()
+        {
+            Console.Clear();
+            Console.WriteLine("╔════════════════════════════════════════════╗");
+            Console.WriteLine("║ BRICK RACE - C#                            ║");
+            Console.WriteLine("║ Corrida em C# - SA 03                      ║");
+            Console.WriteLine("╠════════════════════════════════════════════╣");
+            Console.WriteLine("║ 1 - Iniciar jogo                           ║");
+            Console.WriteLine("║ 2 - Instruções                             ║");
+            Console.WriteLine("║ 3 - Ver último resultado                   ║");
+            Console.WriteLine("║ 0 - Sair                                   ║");
+            Console.WriteLine("╚════════════════════════════════════════════╝");
+            Console.Write("Escolha uma opção: ");
+        }
+
+        private static void ExibirInstrucoes()
+        {
+            Console.Clear();
+            Console.WriteLine("INSTRUÇÕES");
+            Console.WriteLine();
+            Console.WriteLine("Objetivo:");
+            Console.WriteLine("  Dirija o carro nas duas faixas e evite obstáculos que descem pela pista.");
+            Console.WriteLine();
+            Console.WriteLine("Controles:");
+            Console.WriteLine("  A ou seta esquerda  - Mover para a faixa esquerda");
+            Console.WriteLine("  D ou seta direita   - Mover para a faixa direita");
+            Console.WriteLine("  ESC                 - Sair durante a partida");
+            Console.WriteLine();
+            Console.WriteLine("Regras básicas:");
+            Console.WriteLine("  - O jogo termina quando suas vidas acabarem ou quando você pressionar ESC.");
+            Console.WriteLine("  - Pontos são acumulados enquanto você evita obstáculos.");
+            Console.WriteLine();
+            Console.WriteLine("Pressione Enter para voltar ao menu.");
+            Console.ReadLine();
+        }
+
+        private static void ExibirUltimoResultado()
+        {
+            Console.Clear();
+            Console.WriteLine("ÚLTIMO RESULTADO");
+            Console.WriteLine();
+
+            if (ultimoResultado is null)
+            {
+                Console.WriteLine("Ainda não há resultado de partida para exibir.");
+            }
+            else
+            {
+                Console.WriteLine($"Pontos : {ultimoResultado.Pontos:D6}");
+                Console.WriteLine($"Recorde: {ultimoResultado.Recorde:D6}");
+                Console.WriteLine($"Nível  : {ultimoResultado.Nivel:D2}");
+                Console.WriteLine($"Vidas  : {ultimoResultado.Vidas}");
+                Console.WriteLine($"Veloc. : {ultimoResultado.VelocidadeMs} ms");
+                Console.WriteLine($"Resultado: {(ultimoResultado.Venceu ? "Partida concluída" : "Partida finalizada")}");
+            }
+
+            Console.WriteLine();
+            Console.WriteLine("Pressione Enter para voltar ao menu.");
+            Console.ReadLine();
+        }
+    }
+}
